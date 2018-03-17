@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace myblockchain
+namespace DaneChain.Core
 {
     public static class Extensions
     {

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DaneChain.Core;
 using Newtonsoft.Json;
 
-namespace myblockchain
+namespace DaneChain.ConsoleUI
 {
     class Program
     {

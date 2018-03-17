@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/myblockchain/myblockchain.csproj"
+                "${workspaceFolder}/Console/Console.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

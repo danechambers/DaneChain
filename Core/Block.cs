@@ -1,6 +1,6 @@
 using System;
 
-namespace myblockchain
+namespace DaneChain.Core
 {
     public class Block
     {
