@@ -6,13 +6,13 @@ namespace DaneChain.Core
     {
         public string Hash { get; private set; }
         public string PreviousHash { get; }
-        private readonly string data;
+        public string Data { get; }
         private readonly long timeStamp;
         public int Nonce { get; private set; } = 0;
 
         public Block(string data, string previousHash)
         {
-            this.data = data;
+            Data = data;
             PreviousHash = previousHash;
             timeStamp = DateTime.Now.ToUnixTime();
             Hash = CalculateHash();
@@ -22,7 +22,7 @@ namespace DaneChain.Core
             StringUtil.ApplySha256(PreviousHash + 
                 timeStamp.ToString() + 
                 Nonce.ToString() +
-                data);
+                Data);
 
         public void MineBlock(int difficulty)
         {
