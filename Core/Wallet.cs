@@ -8,8 +8,8 @@ namespace DaneChain.Core
 {
     public class Wallet
     {
-        public AsymmetricKeyParameter PublicKey { get; private set; }
-        public AsymmetricKeyParameter PrivateKey { get; private set; }
+        public ECKeyParameters PublicKey { get; private set; }
+        public ECKeyParameters PrivateKey { get; private set; }
 
         public Wallet()
         {
@@ -23,8 +23,8 @@ namespace DaneChain.Core
             var ecSpec = X9ObjectIdentifiers.Prime192v1;
             keyGen.Init(new ECKeyGenerationParameters(ecSpec, secureRandom));
             var keyPair = keyGen.GenerateKeyPair();
-            PublicKey = keyPair.Public;
-            PrivateKey = keyPair.Private;
+            PublicKey = keyPair.Public as ECKeyParameters;
+            PrivateKey = keyPair.Private as ECKeyParameters;
         }
     }
 }

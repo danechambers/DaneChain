@@ -9,8 +9,8 @@ namespace DaneChain.Core
     public class Transaction
     {
         public string TransactionId { get; private set; } // this is also the hash of the transaction.
-        public AsymmetricKeyParameter Sender { get; } // senders address/public key.
-        public AsymmetricKeyParameter Recipient { get; } // Recipients address/public key.
+        public ECKeyParameters Sender { get; } // senders address/public key.
+        public ECKeyParameters Recipient { get; } // Recipients address/public key.
         public float Value { get; }
         public byte[] Signature { get; }
 
@@ -20,12 +20,17 @@ namespace DaneChain.Core
         private static int sequence = 0;
 
         public Transaction(
-            AsymmetricKeyParameter from,
-            AsymmetricKeyParameter to,
+            ECKeyParameters from,
+            ECKeyParameters to,
             float value,
             List<TransactionInput> inputs
         )
         {
+            if(!(Sender is ECPublicKeyParameters senderKey) ||
+                !(Recipient is ECPublicKeyParameters recipientKey))
+                throw new ArgumentException(
+                    "Both sender key and recipient keys need to be public keys.");
+
             Sender = from;
             Recipient = to;
             Value = value;
@@ -36,13 +41,9 @@ namespace DaneChain.Core
         private string CalculateHash()
         {
             sequence++;
-            if(!(Sender is ECPublicKeyParameters senderKey) ||
-                !(Recipient is ECPublicKeyParameters recipientKey))
-                throw new InvalidCastException(
-                    "Unable to get ECPublicKeyParam from generic AsymmetricKeyParam");
             return StringUtil.ApplySha256(
-                senderKey.GetStringFromKey() +
-                recipientKey.GetStringFromKey() +
+                Sender.GetStringFromKey() +
+                Recipient.GetStringFromKey() +
                 Value.ToString() + sequence.ToString()
             );
         }
