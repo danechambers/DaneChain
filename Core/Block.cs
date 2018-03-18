@@ -1,4 +1,5 @@
 using System;
+using DaneChain.Core.Extensions;
 
 namespace DaneChain.Core
 {

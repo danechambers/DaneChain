@@ -1,21 +1,10 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using Org.BouncyCastle.Crypto.Parameters;
 
-namespace DaneChain.Core
+namespace DaneChain.Core.Extensions
 {
-    public static class Extensions
-    {
-        public static long ToUnixTime(this DateTime date)
-        {
-            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            return Convert.ToInt64((date.ToUniversalTime() - epoch).TotalMilliseconds);
-        }
-
-        public static string GetDifficultyString(this int difficulty) => 
-            new string(new char[difficulty]).Replace('\0','0');
-    }
-
     public static class StringUtil
     {
         public static string ApplySha256(this string input)
@@ -32,5 +21,8 @@ namespace DaneChain.Core
 
             return hashString;
         }
+
+        public static string GetStringFromKey(this ECKeyParameters key) => 
+            Convert.ToBase64String(key.PublicKeyParamSet.GetEncoded());
     }
 }

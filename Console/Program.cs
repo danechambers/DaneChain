@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaneChain.Core;
+using DaneChain.Core.Extensions;
 using Newtonsoft.Json;
 
 namespace DaneChain.ConsoleUI
