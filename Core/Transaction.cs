@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using DaneChain.Core.Extensions;
-using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 
 namespace DaneChain.Core
@@ -9,8 +8,8 @@ namespace DaneChain.Core
     public class Transaction
     {
         public string TransactionId { get; private set; } // this is also the hash of the transaction.
-        public ECKeyParameters Sender { get; } // senders address/public key.
-        public ECKeyParameters Recipient { get; } // Recipients address/public key.
+        public ECPublicKeyParameters Sender { get; } // senders address/public key.
+        public ECPublicKeyParameters Recipient { get; } // Recipients address/public key.
         public float Value { get; }
         public byte[] Signature { get; }
 
@@ -20,17 +19,12 @@ namespace DaneChain.Core
         private static int sequence = 0;
 
         public Transaction(
-            ECKeyParameters from,
-            ECKeyParameters to,
+            ECPublicKeyParameters from,
+            ECPublicKeyParameters to,
             float value,
             List<TransactionInput> inputs
         )
         {
-            if(!(Sender is ECPublicKeyParameters senderKey) ||
-                !(Recipient is ECPublicKeyParameters recipientKey))
-                throw new ArgumentException(
-                    "Both sender key and recipient keys need to be public keys.");
-
             Sender = from;
             Recipient = to;
             Value = value;
