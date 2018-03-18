@@ -11,7 +11,7 @@ namespace DaneChain.Core
         public ECPublicKeyParameters Sender { get; } // senders address/public key.
         public ECPublicKeyParameters Recipient { get; } // Recipients address/public key.
         public float Value { get; }
-        public byte[] Signature { get; }
+        public byte[] Signature { get; private set; }
 
         // this is to prevent anybody else from spending funds in our wallet.
         public List<TransactionInput> Inputs { get; } = new List<TransactionInput>();
@@ -29,6 +29,18 @@ namespace DaneChain.Core
             Recipient = to;
             Value = value;
             Inputs = inputs;
+        }
+
+        public void GenerateSignature(ECPrivateKeyParameters privateKey)
+        {
+            var data = Sender.GetStringFromKey() + Recipient.GetStringFromKey() + Value.ToString();
+            Signature = privateKey.ApplyECDSASig(data);
+        }
+
+        public bool VerifySignature()
+        {
+            var data = Sender.GetStringFromKey() + Recipient.GetStringFromKey() + Value.ToString();
+            return Sender.VerifyECDSASig(data, Signature);
         }
 
         // This Calculates the transaction hash (which will be used as its Id)
